@@ -1,6 +1,6 @@
 # Laravel Awesome Validation
 
-![Banner](https://banners.beyondco.de/Laravel%20Awesome%20Validation.png?theme=light&packageManager=composer+require&packageName=phu1237%2Flaravel-awesome-validation&pattern=architect&style=style_1&description=Collection+of+useful+Traits%2C+etc+for+Laravel+Validation&md=1&showWatermark=0&fontSize=100px&images=https%3A%2F%2Flaravel.com%2Fimg%2Flogomark.min.svg)
+![Banner](banner.png)
 [![Version](https://img.shields.io/packagist/v/phu1237/laravel-awesome-validation?style=flat-square)](https://packagist.org/packages/phu1237/laravel-awesome-validation)
 [![License](https://img.shields.io/packagist/l/phu1237/laravel-awesome-validation?style=flat-square)](https://github.com/Phu1237/laravel-awesome-validation/blob/master/LICENSE)
 
