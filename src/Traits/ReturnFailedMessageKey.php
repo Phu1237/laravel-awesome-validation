@@ -11,13 +11,9 @@ trait ReturnFailedMessageKey
 {
     private $config;
 
-    public function __construct() {
-        $this->config = config('awesome_validation.return_failed_message_key');
-    }
-
     protected function failedValidation(Validator $validator) {
-        $config = $this->config;
-
+        $this->config = config('awesome_validation.return_failed_message_key');
+		$config = $this->config;
         $errors = $this->creatFailedRulesCollection($validator->failed());
         $errors = $this->createFailedOutput($errors);
 

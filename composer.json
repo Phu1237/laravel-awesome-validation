@@ -19,6 +19,11 @@
       "Phu1237\\AwesomeValidation\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
   "extra": {
     "laravel": {
       "providers": [
@@ -27,5 +32,15 @@
     }
   },
   "minimum-stability": "stable",
-  "prefer-stable": true
+  "prefer-stable": true,
+  "require-dev": {
+    "pestphp/pest": "^3.7",
+    "orchestra/testbench": "^9.9",
+    "laravel/framework": "^11.37"
+  },
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
+  }
 }
