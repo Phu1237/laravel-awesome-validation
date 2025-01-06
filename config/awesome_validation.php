@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'return_failed_message_key' => [
+    'return_rule_on_failure' => [
         /*
          * Parameter configs
          * Not contain prefix in return configs
