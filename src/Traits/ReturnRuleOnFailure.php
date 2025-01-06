@@ -67,15 +67,11 @@ trait ReturnRuleOnFailure
 
     private function createFailedOutput(Collection $errors): Collection {
         return $errors->mapWithKeys(function ($value, $key) {
-            if (is_array($value)) {
-                $value = (new Collection($value))->mapWithKeys(function ($itemValue, $itemKey) {
-                    return [$itemKey => $this->createFailedOutputValue($itemValue)];
-                });
-                if ($this->config['return']['return_first_error_only']) {
-                    $value = $value->first();
-                }
-            } else {
-                $value = $this->createFailedOutputValue($value);
+            $value = (new Collection($value))->mapWithKeys(function ($itemValue, $itemKey) {
+                return [$itemKey => $this->createFailedOutputValue($itemValue)];
+            });
+            if ($this->config['return']['return_first_error_only']) {
+                $value = $value->first();
             }
             return [$key => $value];
         });
@@ -84,13 +80,7 @@ trait ReturnRuleOnFailure
     private function createFailedOutputValue($value) {
         if ($this->config['return']['return_type'] === 'string') {
             if (isset($value['params'])) {
-                if (is_string($value['params'])) {
-                    var_dump($value['params']);
-                }
                 $value['params'] = implode($this->config['return']['separator']['parameter'], $value['params']);
-            }
-            if (is_string($value)) {
-                var_dump($value);
             }
             $value = implode($this->config['return']['separator']['attribute'], $value);
         }
