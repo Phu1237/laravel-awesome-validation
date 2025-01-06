@@ -11,7 +11,8 @@ trait ReturnRuleOnFailure
 {
     private array $config;
 
-    protected function failedValidation(Validator $validator) {
+    protected function failedValidation(Validator $validator)
+    {
         $this->config = config('awesome_validation.return_rule_on_failure');
         $config = $this->config;
         $errors = $this->creatFailedRulesCollection($validator->failed());
@@ -21,6 +22,7 @@ trait ReturnRuleOnFailure
         if ($config['return']['merge_array_validation']) {
             $errors = $errors->mapWithKeys(function ($messages, $key) {
                 $shortKey = Str::beforeLast($key, '.');
+
                 return [$shortKey => $messages];
             });
         }
@@ -31,7 +33,8 @@ trait ReturnRuleOnFailure
         ], $this->config['return']['status_code']));
     }
 
-    private function creatFailedRulesCollection(array $failedRules): Collection {
+    private function creatFailedRulesCollection(array $failedRules): Collection
+    {
         return (new Collection($failedRules))->mapWithKeys(function ($rules, $key) {
             $value = $this->input($key);
             $messages = [];
@@ -61,11 +64,13 @@ trait ReturnRuleOnFailure
 
                 $messages[] = $message;
             }
+
             return [$key => $messages];
         });
     }
 
-    private function createFailedOutput(Collection $errors): Collection {
+    private function createFailedOutput(Collection $errors): Collection
+    {
         return $errors->mapWithKeys(function ($value, $key) {
             $value = (new Collection($value))->mapWithKeys(function ($itemValue, $itemKey) {
                 return [$itemKey => $this->createFailedOutputValue($itemValue)];
@@ -73,17 +78,20 @@ trait ReturnRuleOnFailure
             if ($this->config['return']['return_first_error_only']) {
                 $value = $value->first();
             }
+
             return [$key => $value];
         });
     }
 
-    private function createFailedOutputValue($value) {
+    private function createFailedOutputValue($value)
+    {
         if ($this->config['return']['return_type'] === 'string') {
             if (isset($value['params'])) {
                 $value['params'] = implode($this->config['return']['separator']['parameter'], $value['params']);
             }
             $value = implode($this->config['return']['separator']['attribute'], $value);
         }
+
         return $value;
     }
 }

@@ -13,9 +13,4 @@ abstract class TestCase extends Orchestra
             ServiceProvider::class,
         ];
     }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-    }
 }

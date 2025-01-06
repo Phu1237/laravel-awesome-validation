@@ -12,18 +12,21 @@ class RequestUseReturnOnFailureTrait
 
     private array $data;
 
-    public function __construct(array $data) {
+    public function __construct(array $data)
+    {
         $this->data = $data;
     }
 
-    public function input(string $key) {
+    public function input(string $key)
+    {
         return $this->data[$key] ?? NULL;
     }
 
     /**
      * @throws HttpResponseException
      */
-    public function callFailedValidation(Validator $validator): void {
+    public function callFailedValidation(Validator $validator): void
+    {
         $this->failedValidation($validator);
     }
 }

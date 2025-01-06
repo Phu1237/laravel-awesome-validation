@@ -17,7 +17,7 @@ test('test config: parameters.include_in_return = true', function () {
     ];
     $validator = Validator::make($input, [
         'number' => 'integer|between:1,10',
-        'decimal' => 'integer|decimal:1,2'
+        'decimal' => 'integer|decimal:1,2',
     ]);
     $validator->fails();
 
@@ -28,10 +28,10 @@ test('test config: parameters.include_in_return = true', function () {
                 'between:1,10',
             ],
             'decimal' => [
-                'decimal:1,2'
-            ]
-        ]
-    ], 422));
+                'decimal:1,2',
+            ],
+        ],
+    ], config('awesome_validation.return_rule_on_failure.return.status_code')));
 
     try {
         $request = new RequestUseReturnOnFailureTrait($input);
@@ -52,7 +52,7 @@ test('test config: parameters.include_in_return = false', function () {
     ];
     $validator = Validator::make($input, [
         'number' => 'integer|between:1,10',
-        'decimal' => 'integer|decimal:1,2'
+        'decimal' => 'integer|decimal:1,2',
     ]);
     $validator->fails();
 
@@ -63,10 +63,10 @@ test('test config: parameters.include_in_return = false', function () {
                 'between',
             ],
             'decimal' => [
-                'decimal'
-            ]
-        ]
-    ], 422));
+                'decimal',
+            ],
+        ],
+    ], config('awesome_validation.return_rule_on_failure.return.status_code')));
 
     try {
         $request = new RequestUseReturnOnFailureTrait($input);
@@ -81,7 +81,7 @@ test('test config: parameters.include_in_return = false', function () {
 test('test config: parameters.include is empty', function () {
     config([
         'awesome_validation.return_rule_on_failure.parameters.include_in_return' => true,
-        'awesome_validation.return_rule_on_failure.parameters.include' => []
+        'awesome_validation.return_rule_on_failure.parameters.include' => [],
     ]);
     $input = [
         'number' => 11,
@@ -89,7 +89,7 @@ test('test config: parameters.include is empty', function () {
     ];
     $validator = Validator::make($input, [
         'number' => 'integer|between:1,10',
-        'decimal' => 'integer|decimal:1,2'
+        'decimal' => 'integer|decimal:1,2',
     ]);
     $validator->fails();
 
@@ -100,10 +100,10 @@ test('test config: parameters.include is empty', function () {
                 'between:1,10',
             ],
             'decimal' => [
-                'decimal:1,2'
-            ]
-        ]
-    ], 422));
+                'decimal:1,2',
+            ],
+        ],
+    ], config('awesome_validation.return_rule_on_failure.return.status_code')));
 
     try {
         $request = new RequestUseReturnOnFailureTrait($input);
@@ -119,7 +119,7 @@ test('test config: parameters.include contain 1 item', function () {
         'awesome_validation.return_rule_on_failure.parameters.include_in_return' => true,
         'awesome_validation.return_rule_on_failure.parameters.include' => [
             'between',
-        ]
+        ],
     ]);
     $input = [
         'number' => 11,
@@ -136,13 +136,13 @@ test('test config: parameters.include contain 1 item', function () {
     $expect = new HttpResponseException(response()->json([
         'errors' => [
             'number' => [
-                'between:1,10'
+                'between:1,10',
             ],
             'decimal' => [
-                'decimal:'
-            ]
-        ]
-    ], 422));
+                'decimal:',
+            ],
+        ],
+    ], config('awesome_validation.return_rule_on_failure.return.status_code')));
 
     try {
         $request->callFailedValidation($validator);
@@ -164,7 +164,7 @@ test('test config: parameters.exclude is empty', function () {
     ];
     $validator = Validator::make($input, [
         'number' => 'integer|between:1,10',
-        'decimal' => 'integer|decimal:1,2'
+        'decimal' => 'integer|decimal:1,2',
     ]);
     $validator->fails();
 
@@ -175,10 +175,10 @@ test('test config: parameters.exclude is empty', function () {
                 'between:1,10',
             ],
             'decimal' => [
-                'decimal:1,2'
-            ]
-        ]
-    ], 422));
+                'decimal:1,2',
+            ],
+        ],
+    ], config('awesome_validation.return_rule_on_failure.return.status_code')));
 
     try {
         $request = new RequestUseReturnOnFailureTrait($input);
@@ -194,7 +194,7 @@ test('test config: parameters.exclude contain 1 item', function () {
         'awesome_validation.return_rule_on_failure.parameters.include_in_return' => true,
         'awesome_validation.return_rule_on_failure.parameters.exclude' => [
             'between',
-        ]
+        ],
     ]);
     $input = [
         'number' => 11,
@@ -202,7 +202,7 @@ test('test config: parameters.exclude contain 1 item', function () {
     ];
     $validator = Validator::make($input, [
         'number' => 'integer|between:1,10',
-        'decimal' => 'integer|decimal:1,2'
+        'decimal' => 'integer|decimal:1,2',
     ]);
     $validator->fails();
 
@@ -213,10 +213,10 @@ test('test config: parameters.exclude contain 1 item', function () {
                 'between:',
             ],
             'decimal' => [
-                'decimal:1,2'
-            ]
-        ]
-    ], 422));
+                'decimal:1,2',
+            ],
+        ],
+    ], config('awesome_validation.return_rule_on_failure.return.status_code')));
 
     try {
         $request = new RequestUseReturnOnFailureTrait($input);
@@ -241,7 +241,7 @@ test('test config: value.include_in_return = true', function () {
     ];
     $validator = Validator::make($input, [
         'number' => 'integer|between:1,10',
-        'decimal' => 'integer|decimal:1,2'
+        'decimal' => 'integer|decimal:1,2',
     ]);
     $validator->fails();
 
@@ -252,10 +252,10 @@ test('test config: value.include_in_return = true', function () {
                 'between:11',
             ],
             'decimal' => [
-                'decimal:11'
-            ]
-        ]
-    ], 422));
+                'decimal:11',
+            ],
+        ],
+    ], config('awesome_validation.return_rule_on_failure.return.status_code')));
 
     try {
         $request = new RequestUseReturnOnFailureTrait($input);
@@ -276,7 +276,7 @@ test('test config: value.include_in_return = false', function () {
     ];
     $validator = Validator::make($input, [
         'number' => 'integer|between:1,10',
-        'decimal' => 'integer|decimal:1,2'
+        'decimal' => 'integer|decimal:1,2',
     ]);
     $validator->fails();
 
@@ -287,10 +287,10 @@ test('test config: value.include_in_return = false', function () {
                 'between',
             ],
             'decimal' => [
-                'decimal'
-            ]
-        ]
-    ], 422));
+                'decimal',
+            ],
+        ],
+    ], config('awesome_validation.return_rule_on_failure.return.status_code')));
 
     try {
         $request = new RequestUseReturnOnFailureTrait($input);
@@ -305,7 +305,7 @@ test('test config: value.include_in_return = false', function () {
 test('test config: value.include is empty', function () {
     config([
         'awesome_validation.return_rule_on_failure.value.include_in_return' => true,
-        'awesome_validation.return_rule_on_failure.value.include' => []
+        'awesome_validation.return_rule_on_failure.value.include' => [],
     ]);
     $input = [
         'number' => 11,
@@ -313,7 +313,7 @@ test('test config: value.include is empty', function () {
     ];
     $validator = Validator::make($input, [
         'number' => 'integer|between:1,10',
-        'decimal' => 'integer|decimal:1,2'
+        'decimal' => 'integer|decimal:1,2',
     ]);
     $validator->fails();
 
@@ -324,10 +324,10 @@ test('test config: value.include is empty', function () {
                 'between:11',
             ],
             'decimal' => [
-                'decimal:11'
-            ]
-        ]
-    ], 422));
+                'decimal:11',
+            ],
+        ],
+    ], config('awesome_validation.return_rule_on_failure.return.status_code')));
 
     try {
         $request = new RequestUseReturnOnFailureTrait($input);
@@ -343,7 +343,7 @@ test('test config: value.include contain 1 item', function () {
         'awesome_validation.return_rule_on_failure.value.include_in_return' => true,
         'awesome_validation.return_rule_on_failure.value.include' => [
             'between',
-        ]
+        ],
     ]);
     $input = [
         'number' => 11,
@@ -360,13 +360,13 @@ test('test config: value.include contain 1 item', function () {
     $expect = new HttpResponseException(response()->json([
         'errors' => [
             'number' => [
-                'between:11'
+                'between:11',
             ],
             'decimal' => [
-                'decimal:'
-            ]
-        ]
-    ], 422));
+                'decimal:',
+            ],
+        ],
+    ], config('awesome_validation.return_rule_on_failure.return.status_code')));
 
     try {
         $request->callFailedValidation($validator);
@@ -388,7 +388,7 @@ test('test config: value.exclude is empty', function () {
     ];
     $validator = Validator::make($input, [
         'number' => 'integer|between:1,10',
-        'decimal' => 'integer|decimal:1,2'
+        'decimal' => 'integer|decimal:1,2',
     ]);
     $validator->fails();
 
@@ -399,10 +399,10 @@ test('test config: value.exclude is empty', function () {
                 'between:11',
             ],
             'decimal' => [
-                'decimal:11'
-            ]
-        ]
-    ], 422));
+                'decimal:11',
+            ],
+        ],
+    ], config('awesome_validation.return_rule_on_failure.return.status_code')));
 
     try {
         $request = new RequestUseReturnOnFailureTrait($input);
@@ -418,7 +418,7 @@ test('test config: value.exclude contain 1 item', function () {
         'awesome_validation.return_rule_on_failure.value.include_in_return' => true,
         'awesome_validation.return_rule_on_failure.value.exclude' => [
             'between',
-        ]
+        ],
     ]);
     $input = [
         'number' => 11,
@@ -426,7 +426,7 @@ test('test config: value.exclude contain 1 item', function () {
     ];
     $validator = Validator::make($input, [
         'number' => 'integer|between:1,10',
-        'decimal' => 'integer|decimal:1,2'
+        'decimal' => 'integer|decimal:1,2',
     ]);
     $validator->fails();
 
@@ -437,10 +437,10 @@ test('test config: value.exclude contain 1 item', function () {
                 'between:',
             ],
             'decimal' => [
-                'decimal:11'
-            ]
-        ]
-    ], 422));
+                'decimal:11',
+            ],
+        ],
+    ], config('awesome_validation.return_rule_on_failure.return.status_code')));
 
     try {
         $request = new RequestUseReturnOnFailureTrait($input);
@@ -479,7 +479,7 @@ test('test config: value.exclude contain 1 item', function () {
 //                'decimal:1,2'
 //            ]
 //        ]
-//    ], 422));
+//    ], config('awesome_validation.return_rule_on_failure.return.status_code')));
 //
 //    try {
 //        $request = new RequestUseReturnOnFailureTrait($input);
@@ -515,7 +515,7 @@ test('test config: value.exclude contain 1 item', function () {
 //                'decimal:1,2'
 //            ]
 //        ]
-//    ], 422));
+//    ], config('awesome_validation.return_rule_on_failure.return.status_code')));
 //
 //    try {
 //        $request = new RequestUseReturnOnFailureTrait($input);
@@ -536,7 +536,7 @@ test('test config: return.merge_array_validation = true', function () {
     ];
     $validator = Validator::make($input, [
         'array' => 'array|min:1',
-        'array.*' => 'integer|between:1,10'
+        'array.*' => 'integer|between:1,10',
     ]);
     $validator->fails();
 
@@ -546,8 +546,8 @@ test('test config: return.merge_array_validation = true', function () {
             'array' => [
                 'between',
             ],
-        ]
-    ], 422));
+        ],
+    ], config('awesome_validation.return_rule_on_failure.return.status_code')));
 
     try {
         $request = new RequestUseReturnOnFailureTrait($input);
@@ -567,7 +567,7 @@ test('test config: return.merge_array_validation = false', function () {
     ];
     $validator = Validator::make($input, [
         'array' => 'array|min:1',
-        'array.*' => 'integer|between:1,10'
+        'array.*' => 'integer|between:1,10',
     ]);
     $validator->fails();
 
@@ -577,8 +577,8 @@ test('test config: return.merge_array_validation = false', function () {
             'array.3' => [
                 'between',
             ],
-        ]
-    ], 422));
+        ],
+    ], config('awesome_validation.return_rule_on_failure.return.status_code')));
 
     try {
         $request = new RequestUseReturnOnFailureTrait($input);
@@ -601,7 +601,7 @@ test('test config: return.prefix is blank', function () {
     ];
     $validator = Validator::make($input, [
         'number' => 'integer|between:1,10',
-        'decimal' => 'integer|decimal:1,2'
+        'decimal' => 'integer|decimal:1,2',
     ]);
     $validator->fails();
 
@@ -612,10 +612,10 @@ test('test config: return.prefix is blank', function () {
                 'between',
             ],
             'decimal' => [
-                'decimal'
-            ]
-        ]
-    ], 422));
+                'decimal',
+            ],
+        ],
+    ], config('awesome_validation.return_rule_on_failure.return.status_code')));
 
     try {
         $request = new RequestUseReturnOnFailureTrait($input);
@@ -636,7 +636,7 @@ test('test config: return.prefix is \'validation.\'', function () {
     ];
     $validator = Validator::make($input, [
         'number' => 'integer|between:1,10',
-        'decimal' => 'integer|decimal:1,2'
+        'decimal' => 'integer|decimal:1,2',
     ]);
     $validator->fails();
 
@@ -647,10 +647,10 @@ test('test config: return.prefix is \'validation.\'', function () {
                 'validation.between',
             ],
             'decimal' => [
-                'validation.decimal'
-            ]
-        ]
-    ], 422));
+                'validation.decimal',
+            ],
+        ],
+    ], config('awesome_validation.return_rule_on_failure.return.status_code')));
 
     try {
         $request = new RequestUseReturnOnFailureTrait($input);
@@ -674,7 +674,7 @@ test('test config: return.separator.attribute is colon (:)', function () {
     ];
     $validator = Validator::make($input, [
         'number' => 'integer|between:1,10',
-        'decimal' => 'integer|decimal:1,2'
+        'decimal' => 'integer|decimal:1,2',
     ]);
     $validator->fails();
 
@@ -685,10 +685,10 @@ test('test config: return.separator.attribute is colon (:)', function () {
                 'between:1,10:11',
             ],
             'decimal' => [
-                'decimal:1,2:11'
-            ]
-        ]
-    ], 422));
+                'decimal:1,2:11',
+            ],
+        ],
+    ], config('awesome_validation.return_rule_on_failure.return.status_code')));
 
     try {
         $request = new RequestUseReturnOnFailureTrait($input);
@@ -711,7 +711,7 @@ test('test config: return.separator.attribute is vertical bar (|)', function () 
     ];
     $validator = Validator::make($input, [
         'number' => 'integer|between:1,10',
-        'decimal' => 'integer|decimal:1,2'
+        'decimal' => 'integer|decimal:1,2',
     ]);
     $validator->fails();
 
@@ -722,10 +722,10 @@ test('test config: return.separator.attribute is vertical bar (|)', function () 
                 'between|1,10|11',
             ],
             'decimal' => [
-                'decimal|1,2|11'
-            ]
-        ]
-    ], 422));
+                'decimal|1,2|11',
+            ],
+        ],
+    ], config('awesome_validation.return_rule_on_failure.return.status_code')));
 
     try {
         $request = new RequestUseReturnOnFailureTrait($input);
@@ -748,7 +748,7 @@ test('test config: return.separator.parameter is comma (,)', function () {
     ];
     $validator = Validator::make($input, [
         'number' => 'integer|between:1,10',
-        'decimal' => 'integer|decimal:1,2'
+        'decimal' => 'integer|decimal:1,2',
     ]);
     $validator->fails();
 
@@ -759,10 +759,10 @@ test('test config: return.separator.parameter is comma (,)', function () {
                 'between:1,10:11',
             ],
             'decimal' => [
-                'decimal:1,2:11'
-            ]
-        ]
-    ], 422));
+                'decimal:1,2:11',
+            ],
+        ],
+    ], config('awesome_validation.return_rule_on_failure.return.status_code')));
 
     try {
         $request = new RequestUseReturnOnFailureTrait($input);
@@ -785,7 +785,7 @@ test('test config: return.separator.parameter is semicolon (;)', function () {
     ];
     $validator = Validator::make($input, [
         'number' => 'integer|between:1,10',
-        'decimal' => 'integer|decimal:1,2'
+        'decimal' => 'integer|decimal:1,2',
     ]);
     $validator->fails();
 
@@ -796,10 +796,10 @@ test('test config: return.separator.parameter is semicolon (;)', function () {
                 'between:1;10:11',
             ],
             'decimal' => [
-                'decimal:1;2:11'
-            ]
-        ]
-    ], 422));
+                'decimal:1;2:11',
+            ],
+        ],
+    ], config('awesome_validation.return_rule_on_failure.return.status_code')));
 
     try {
         $request = new RequestUseReturnOnFailureTrait($input);
@@ -821,7 +821,7 @@ test('test config: return.return_first_error_only = true', function () {
     ];
     $validator = Validator::make($input, [
         'number' => 'integer|between:1,10',
-        'decimal' => 'integer|decimal:1,2'
+        'decimal' => 'integer|decimal:1,2',
     ]);
     $validator->fails();
 
@@ -829,9 +829,9 @@ test('test config: return.return_first_error_only = true', function () {
     $expect = new HttpResponseException(response()->json([
         'errors' => [
             'number' => 'between',
-            'decimal' => 'decimal'
-        ]
-    ], 422));
+            'decimal' => 'decimal',
+        ],
+    ], config('awesome_validation.return_rule_on_failure.return.status_code')));
 
     try {
         $request = new RequestUseReturnOnFailureTrait($input);
@@ -852,7 +852,7 @@ test('test config: return.return_first_error_only = false', function () {
     ];
     $validator = Validator::make($input, [
         'number' => 'integer|between:1,10',
-        'decimal' => 'integer|decimal:1,2'
+        'decimal' => 'integer|decimal:1,2',
     ]);
     $validator->fails();
 
@@ -860,13 +860,13 @@ test('test config: return.return_first_error_only = false', function () {
     $expect = new HttpResponseException(response()->json([
         'errors' => [
             'number' => [
-                'between'
+                'between',
             ],
             'decimal' => [
-                'decimal'
-            ]
-        ]
-    ], 422));
+                'decimal',
+            ],
+        ],
+    ], config('awesome_validation.return_rule_on_failure.return.status_code')));
 
     try {
         $request = new RequestUseReturnOnFailureTrait($input);
@@ -888,7 +888,7 @@ test('test config: return.return_type = string', function () {
     ];
     $validator = Validator::make($input, [
         'number' => 'integer|between:1,10',
-        'decimal' => 'integer|decimal:1,2'
+        'decimal' => 'integer|decimal:1,2',
     ]);
     $validator->fails();
 
@@ -899,10 +899,10 @@ test('test config: return.return_type = string', function () {
                 'between',
             ],
             'decimal' => [
-                'decimal'
-            ]
-        ]
-    ], 422));
+                'decimal',
+            ],
+        ],
+    ], config('awesome_validation.return_rule_on_failure.return.status_code')));
 
     try {
         $request = new RequestUseReturnOnFailureTrait($input);
@@ -925,7 +925,7 @@ test('test config: return.return_type = array', function () {
     ];
     $validator = Validator::make($input, [
         'number' => 'integer|between:1,10',
-        'decimal' => 'integer|decimal:1,2'
+        'decimal' => 'integer|decimal:1,2',
     ]);
     $validator->fails();
 
@@ -936,18 +936,18 @@ test('test config: return.return_type = array', function () {
                 [
                     'name' => 'between',
                     'params' => ["1", "10"],
-                    'value' => 11
+                    'value' => 11,
                 ],
             ],
             'decimal' => [
                 [
                     'name' => 'decimal',
                     'params' => ["1", "2"],
-                    'value' => 11
+                    'value' => 11,
                 ],
-            ]
-        ]
-    ], 422));
+            ],
+        ],
+    ], config('awesome_validation.return_rule_on_failure.return.status_code')));
 
     try {
         $request = new RequestUseReturnOnFailureTrait($input);
@@ -969,7 +969,7 @@ test('test config: return.status_code = 422', function () {
     ];
     $validator = Validator::make($input, [
         'number' => 'integer|between:1,10',
-        'decimal' => 'integer|decimal:1,2'
+        'decimal' => 'integer|decimal:1,2',
     ]);
     $validator->fails();
 
@@ -980,9 +980,9 @@ test('test config: return.status_code = 422', function () {
                 'between',
             ],
             'decimal' => [
-                'decimal'
-            ]
-        ]
+                'decimal',
+            ],
+        ],
     ], 422));
 
     try {
@@ -1004,7 +1004,7 @@ test('test config: return.return_type = 400', function () {
     ];
     $validator = Validator::make($input, [
         'number' => 'integer|between:1,10',
-        'decimal' => 'integer|decimal:1,2'
+        'decimal' => 'integer|decimal:1,2',
     ]);
     $validator->fails();
 
@@ -1015,9 +1015,9 @@ test('test config: return.return_type = 400', function () {
                 'between',
             ],
             'decimal' => [
-                'decimal'
-            ]
-        ]
+                'decimal',
+            ],
+        ],
     ], 400));
 
     try {
