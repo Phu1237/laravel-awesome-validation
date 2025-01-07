@@ -7,17 +7,14 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
-trait ReturnFailedMessageKey
+trait ReturnRuleOnFailure
 {
-    private $config;
+    private array $config;
 
-    public function __construct() {
-        $this->config = config('awesome_validation.return_failed_message_key');
-    }
-
-    protected function failedValidation(Validator $validator) {
+    protected function failedValidation(Validator $validator)
+    {
+        $this->config = config('awesome_validation.return_rule_on_failure');
         $config = $this->config;
-
         $errors = $this->creatFailedRulesCollection($validator->failed());
         $errors = $this->createFailedOutput($errors);
 
@@ -25,6 +22,7 @@ trait ReturnFailedMessageKey
         if ($config['return']['merge_array_validation']) {
             $errors = $errors->mapWithKeys(function ($messages, $key) {
                 $shortKey = Str::beforeLast($key, '.');
+
                 return [$shortKey => $messages];
             });
         }
@@ -35,10 +33,11 @@ trait ReturnFailedMessageKey
         ], $this->config['return']['status_code']));
     }
 
-    private function creatFailedRulesCollection(array $failedRules): Collection {
+    private function creatFailedRulesCollection(array $failedRules): Collection
+    {
         return (new Collection($failedRules))->mapWithKeys(function ($rules, $key) {
             $value = $this->input($key);
-            $messages = $this->config['return']['return_first_error_only'] ? "" : [];
+            $messages = [];
 
             foreach ($rules as $rule => $params) {
                 $message = [];
@@ -53,44 +52,46 @@ trait ReturnFailedMessageKey
 
                 if ($this->config['parameters']['include_in_return']) {
                     $isInIncludeList = empty($this->config['parameters']['include']) || in_array($lowerRuleName, $this->config['parameters']['include']);
-                    $isInExcludeList = empty($this->config['parameters']['exclude']) || in_array($lowerRuleName, $this->config['parameters']['exclude']);
+                    $isInExcludeList = !empty($this->config['parameters']['exclude']) && in_array($lowerRuleName, $this->config['parameters']['exclude']);
                     $message['params'] = !$isInExcludeList && $isInIncludeList ? $params : NULL;
                 }
 
                 if ($this->config['value']['include_in_return']) {
-                    $message['value'] = $value;
+                    $isInIncludeList = empty($this->config['value']['include']) || in_array($lowerRuleName, $this->config['value']['include']);
+                    $isInExcludeList = !empty($this->config['value']['exclude']) && in_array($lowerRuleName, $this->config['value']['exclude']);
+                    $message['value'] = !$isInExcludeList && $isInIncludeList ? $value : NULL;
                 }
 
-                if ($this->config['return']['return_first_error_only']) {
-                    $messages = $message;
-                } else {
-                    $messages[] = $message;
-                }
+                $messages[] = $message;
             }
+
             return [$key => $messages];
         });
     }
 
-    private function createFailedOutput(Collection $errors): Collection {
+    private function createFailedOutput(Collection $errors): Collection
+    {
         return $errors->mapWithKeys(function ($value, $key) {
-            if (is_array($value)) {
-                $value = (new Collection($value))->mapWithKeys(function ($itemValue, $itemKey) {
-                    return [$itemKey => $this->createFailedOutputValue($itemValue)];
-                });
-            } else {
-                $value = $this->createFailedOutputValue($value);
+            $value = (new Collection($value))->mapWithKeys(function ($itemValue, $itemKey) {
+                return [$itemKey => $this->createFailedOutputValue($itemValue)];
+            });
+            if ($this->config['return']['return_first_error_only']) {
+                $value = $value->first();
             }
+
             return [$key => $value];
         });
     }
 
-    private function createFailedOutputValue($value) {
+    private function createFailedOutputValue($value)
+    {
         if ($this->config['return']['return_type'] === 'string') {
             if (isset($value['params'])) {
                 $value['params'] = implode($this->config['return']['separator']['parameter'], $value['params']);
             }
             $value = implode($this->config['return']['separator']['attribute'], $value);
         }
+
         return $value;
     }
 }

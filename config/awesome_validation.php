@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'return_failed_message_key' => [
+    'return_rule_on_failure' => [
         /*
          * Parameter configs
          * Not contain prefix in return configs
@@ -12,7 +12,7 @@ return [
             "include" => [],
             // Not include param list. Ex: unique:users,id => unique:
             "exclude" => [
-                'unique'
+                'unique',
             ],
         ],
 
@@ -85,6 +85,6 @@ return [
              * HTTP status code when validate failed
              */
             "status_code" => 422,
-        ]
+        ],
     ],
 ];

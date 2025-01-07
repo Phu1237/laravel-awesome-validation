@@ -11,7 +11,8 @@ class ServiceProvider extends BaseServiceProvider
      *
      * @return void
      */
-    public function register(): void {
+    public function register(): void
+    {
         $this->mergeConfigFrom(
             __DIR__ . '/../config/awesome_validation.php', 'awesome_validation'
         );
@@ -22,9 +23,10 @@ class ServiceProvider extends BaseServiceProvider
      *
      * @return void
      */
-    public function boot(): void {
+    public function boot(): void
+    {
         $this->publishes([
-            __DIR__ . '/../config/awesome_validation.php', config_path('awesome_validation')
+            __DIR__ . '/../config/awesome_validation.php', config_path('awesome_validation'),
         ]);
     }
 }
