@@ -26,7 +26,7 @@ class ServiceProvider extends BaseServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            __DIR__ . '/../config/awesome_validation.php' => config_path('awesome_validation'),
+            __DIR__ . '/../config/awesome_validation.php' => config_path('awesome_validation.php'),
         ], 'config');
     }
 }
